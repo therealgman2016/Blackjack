@@ -59,12 +59,12 @@ Display one of the dealer's cards (other card is hidden)
 Repeat until player stands or busts:
     Ask player to hit or stand
 
-    If player hits:
-        Deal a card to the player
-        Display updated hand and total
+If player hits:
+    Deal a card to the player
+    Display updated hand and total
 
-    If player's total exceeds 21:
-        Player busts, dealer wins
+If player's total exceeds 21:
+    Player busts, dealer wins
 
 Reveal dealer's hidden card
 Display dealer's full hand and total
