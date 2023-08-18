@@ -84,7 +84,7 @@ Compare player's and dealer's hands:
 Payout bets:
     If not Blackjack:
         If player lost, player pays that amount to dealer (loses amount from balance)
-        If dealer lost, dealera pays that amount to player
+        If dealer lost, dealer pays that amount to player
     If Blackjack:
         If player lost, player pays 150% of that bet to dealer
         If dealer lost, dealer pays 150% of that bet to player
