@@ -33,6 +33,7 @@
 
 }
 
+
 .player-section,
 .dealer-section {
     display: flex;
@@ -54,3 +55,14 @@
     background-color: bisque;
     align-self: center;
 }
+
+
+.card-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    border: 4px dotted grey;
+    padding: 10px;
+
+}
+
