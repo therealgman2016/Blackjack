@@ -18,7 +18,7 @@
 #game-container {
     display: flex;
     width: 1300px;
-    height: 600px;
+    height: auto;
     background: #025930;
     margin-top: 2%;
     flex-direction: column;
@@ -41,4 +41,16 @@
     background: #8C2034;
     align-self: center;
     margin-top: 20px;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.hand {
+    display: flex;
+    width: 120px;
+    height: 167.6px;
+    border: 5px solid #000;
+    background-color: bisque;
+    align-self: center;
 }
