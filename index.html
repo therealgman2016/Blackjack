@@ -4,13 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/styles.css" />
-    <script src="script.js"></script>
+    
     <title>Document</title>
 </head>
 <body>
-    <div>
-        <h2>Hi</h2>
+    <div id="game-container">
+        <h1>Blackjack Game</h1>
+        
+        <div class="player-section">
+            <h2>Your Hand</h2>
+            <div id="player-hand" class="hand">
+                <!-- Player's cards will go here -->
+            </div>
+            <span id="player-score">Score: 0</span>
+        </div>
+        
+        <div class="dealer-section">
+            <h2>Dealer's Hand</h2>
+            <div id="dealer-hand" class="hand">
+                <!-- Dealer's cards will go here -->
+            </div>
+            <span id="dealer-score">Score: 0</span>
+        </div>
+        
+        <div class="game-controls">
+            <button id="hit-button">Hit</button>
+            <button id="stand-button">Stand</button>
+            <button id="deal-button">Deal</button>
+        </div>
+        
+        <div id="message-area">
+            <!-- Messages to the player will be displayed here -->
+        </div>
     </div>
     
+    <script src="script.js"></script>
 </body>
 </html>
