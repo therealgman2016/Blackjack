@@ -1,0 +1,44 @@
+#gameboard {
+    display: flex;
+    background: #F2F2F2;
+    margin: 0px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#title-box {
+    display: flex;
+    justify-content: center;
+    background-color: coral;
+    margin-top: 1%;
+    width: 90%;
+}
+
+#game-container {
+    display: flex;
+    width: 1300px;
+    height: 600px;
+    background: #025930;
+    margin-top: 2%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.game-controls,
+.deck {
+    align-self: flex-end; 
+    margin-right: 20px;
+
+}
+
+.player-section,
+.dealer-section {
+    display: flex;
+    width: 30%;
+    height: auto;
+    background: #8C2034;
+    align-self: center;
+    margin-top: 20px;
+}

@@ -8,36 +8,46 @@
     <title>Blackjack</title>
 </head>
 <body>
-    <div id="game-container">
-        <h1>Blackjack Game</h1>
-        
-        <div class="player-section">
-            <h2>Your Hand</h2>
-            <div id="player-hand" class="hand">
-                <!-- Player's cards will go here -->
+    <div id="gameboard">
+        <div id="title-box">
+            <h1>Blackjack</h1>
+        </div>
+
+        <div id="game-container">
+            <div class="dealer-section">
+                <h2>Dealer's Hand</h2>
+                <div id="dealer-hand" class="hand">
+                    <!-- Dealer's cards will go here -->
+                </div>
+                <span id="dealer-score">Score: 0</span>
             </div>
-            <span id="player-score">Score: 0</span>
-        </div>
-        
-        <div class="dealer-section">
-            <h2>Dealer's Hand</h2>
-            <div id="dealer-hand" class="hand">
-                <!-- Dealer's cards will go here -->
+
+            <div class="player-section">
+                <h2>Your Hand</h2>
+                <div id="player-hand" class="hand">
+                    <!-- Player's cards will go here -->
+                </div>
+                <span id="player-score">Score: 0</span>
             </div>
-            <span id="dealer-score">Score: 0</span>
+            
+            <div class="deck">
+                <h2>Deck</h2>
+            </div>
+            
+            <div class="game-controls">
+                <button id="hit-button">Hit</button>
+                <button id="stand-button">Stand</button>
+                <button id="deal-button">Deal</button>
+                <button id="cash-out">Cash Out</button>
+            </div>
+            
+            
         </div>
-        
-        <div class="game-controls">
-            <button id="hit-button">Hit</button>
-            <button id="stand-button">Stand</button>
-            <button id="deal-button">Deal</button>
-        </div>
-        
+
         <div id="message-area">
             <!-- Messages to the player will be displayed here -->
         </div>
     </div>
-    
     <script src="script.js"></script>
 </body>
 </html>
