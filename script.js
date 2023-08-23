@@ -1,7 +1,10 @@
 // this is the organized version of the file, NT
 
-// VERSION 0.30
-// fixed reset button, and play agian button
+// VERSION 0.31
+// inital cards now show when startGame begins
+// dealer now plays correctly
+// fixed determineWinner
+
 
 
 const cardDeck = [
@@ -26,11 +29,17 @@ let playerScore = calculateHandTotal(playerHand);
 let dealerScore = calculateHandTotal(dealerHand);
 let baseCard = "css/card-library/images/backs/blue.svg";
 let betAmount = 0;
+let playerStand = false;
+let dealerStand = false;
+// Initialize player's bank
+let playerBank = 1000;
+document.getElementById("bank").textContent = `Bank: $${playerBank}`;
 
 // Function to get a random card from the deck
 function getRandomCard() {
     const randomIndex = Math.floor(Math.random() * cardDeck.length);
-    return cardDeck[randomIndex];
+    //console.log(`random card - ${cardDeck[randomIndex]}`) // dev testing
+    return cardDeck[randomIndex]
 }
 
 // Function to calculate the total value of a hand
@@ -41,7 +50,7 @@ function calculateHandTotal(hand) {
 
     for (const card of hand) {
         const cardValue = card.substring(card.lastIndexOf('-') + 1, card.lastIndexOf('.')).replace("r", "");
-        console.log('Card:', card, 'Value:', cardValue); // Debugging log
+       // console.log('Card:', card, 'Value:', cardValue); // Debugging log
         
         if (cardValue === 'A') {
             hasAce = true;
@@ -52,12 +61,12 @@ function calculateHandTotal(hand) {
             total += parseInt(cardValue);
         }
     }
-    console.log('Total before adjustments:', total); // Debugging log
+   // console.log('Total before adjustments:', total); // Debugging log
 
     if (hasAce && total > 21) {
         total -= 10;
     }
-    console.log('Total after adjustments:', total); // Debugging log
+   // console.log('Total after adjustments:', total); // Debugging log
     return total;
 }
 
@@ -76,6 +85,7 @@ function dealPlayer() {
     // ... dealPlayer logic ...
     const randomCard = `images/${getRandomCard()}`;
     playerHand.push(randomCard);
+    console.log("this is what player drew" + randomCard)
     document.getElementById("playerCard").innerHTML += `<img src="${randomCard}" />`;
 
     playerScore = calculateHandTotal(playerHand);
@@ -93,9 +103,7 @@ function dealPlayer() {
     }
 }
 
-// Initialize player's bank
-let playerBank = 1000;
-document.getElementById("bank").textContent = `Bank: $${playerBank}`;
+
 
 // Function to modify player's bank
 function modifyPlayerBank(amount) {
@@ -151,25 +159,28 @@ function resetGame() {
 
 // Function to handle the dealer's turn
 function dealerTurn() {
+    console.log("dealer turn")
     // ... dealerTurn logic ...
     // Dealer's logic to hit until reaching 17 or higher
-    while (dealerScore < 17) {
+    if (dealerScore < 17) {
         const randomCard = `images/${getRandomCard()}`;
         dealerHand.push(randomCard);
+        console.log(randomCard + "this is what the dealer got")
         document.getElementById("dealerCard").innerHTML += `<img id="img1" src="${randomCard}"/>`;
 
         dealerScore = calculateHandTotal(dealerHand);
         document.getElementById("dealer-score").textContent = `Score: ${dealerScore}`;
+    }else {
+        dealerStand = true
+        determineWinner()
     }
 
-    // Determine the winner and handle money accordingly
     
 }
 
 
 // Function to start the game with a given bet amount
 function startGame(betAmount) {
-    // ... Reset game state and enable buttons ...
 
     // Validate the bet amount (ensure it's a number)
     if (!isNaN(betAmount)) {
@@ -180,7 +191,8 @@ function startGame(betAmount) {
         // Deal initial cards to player and dealer
         playerHand.push(`images/${getRandomCard()}`);
         dealerHand.push(`images/${getRandomCard()}`);
-        document.getElementById("playerCard").innerHTML += `<img id="img1" src="${randomCard}"/>`;
+        document.getElementById("dealerCard").innerHTML = `<img id="img1" src="${dealerHand[0]}"/>`;
+        document.getElementById("playerCard").innerHTML = `<img id="img2" src="${playerHand[0]}"/>`;
 
         playerScore = calculateHandTotal(playerHand);
         dealerScore = calculateHandTotal(dealerHand);
@@ -189,89 +201,89 @@ function startGame(betAmount) {
         document.getElementById("dealer-score").textContent = `Score: ${dealerScore}`;
 
         // Check if player has Blackjack
-        if (playerScore === 21) {
-            document.getElementById("message-area").textContent = "Blackjack! Player wins!";
+        if (playerScore === 21 || dealerScore === 21) {
+            document.getElementById("message-area").textContent = "Blackjack! Wins!";
             modifyPlayerBank(betAmount * 1.5); // Add winnings to the bank
             document.getElementById("hit-button").disabled = true;
             document.getElementById("stand-button").disabled = true;
         } else {
             // Start the loop between player and dealer turns
-            playerTurn();
+            dealPlayer();
         }
     } else {
         document.getElementById("message-area").textContent = "Invalid bet amount. Please enter a number.";
     }
 }
 
-// Function to handle the player's turn
-function playerTurn() {
-    document.getElementById("hit-button").disabled = false;
-    document.getElementById("stand-button").disabled = false;
-    document.getElementById("message-area").textContent = "Player's turn. Choose hit or stand.";
-}
+// // Function to handle the player's turn
+// function playerTurn() {
+//     document.getElementById("hit-button").disabled = false;
+//     document.getElementById("stand-button").disabled = false;
+//     document.getElementById("message-area").textContent = "Player's turn. Choose hit or stand.";
+// }
+
 
 // Function to handle the player's choice to stand
-function playerStand() {
-    // ... playerStand logic ...
+function playerStandButton() {
     document.getElementById("hit-button").disabled = true;
     document.getElementById("stand-button").disabled = true;
 
     // Trigger the dealer's turn
-    dealerTurn();
+    dealerTurn()
+    determineWinner()
 }
 
 // Function to handle the dealer's turn
-function dealerTurn() {
-    // Dealer's logic to hit until reaching 17 or higher
-    while (dealerScore < 17) {
-        dealerHand.push(`images/${getRandomCard()}`);
-        dealerScore = calculateHandTotal(dealerHand);
-        document.getElementById("dealer-score").textContent = `Score: ${dealerScore}`;
-    }
+// function dealerTurn() {
+//     console.log(" 2nddealerTurn")
+//     // Dealer's logic to hit until reaching 17 or higher
+//     while (dealerScore < 17) {
+//         dealerHand.push(`images/${getRandomCard()}`);
+//         dealerScore = calculateHandTotal(dealerHand);
+//         document.getElementById("dealer-score").textContent = `Score: ${dealerScore}`;
+//     }
 
-    // Determine the winner and handle money accordingly
-    determineWinner();
+//     // Determine the winner and handle money accordingly
+//     determineWinner();
 
-    // Offer the player to play another round or cash out
-    document.getElementById("play-again").style.display = "block";
-    document.getElementById("cash-out").style.display = "block";
-}
-
-
-function checkScores() {
-    if (checkBust(playerScore, "Player")) {
-        document.getElementById("hit-button").disabled = true;
-        document.getElementById("stand-button").disabled = true;
-        document.getElementById("message-area").textContent = "Player Bust! You lose your bet.";
-        modifyPlayerBank(-betAmount); // Subtract the bet amount from the bank
-
-        // Offer the player to play another round or cash out
-        document.getElementById("play-again").style.display = "block";
-        document.getElementById("cash-out").style.display = "block";
-    } else {
-        // Check if dealer's turn is over
-        if (dealerScore >= 17) {
-            determineWinner();
-        }
-    }
-}
+//     // Offer the player to play another round or cash out
+//     document.getElementById("play-again").style.display = "block";
+//     document.getElementById("cash-out").style.display = "block";
+// }
 
 
-// Function to set the bet amount and update display
-function setBetAmount(amount) {
-    betAmount = amount;
-    document.getElementById("bet-display").textContent = `Bet: $${betAmount}`;
-}
+// function checkScores() {
+//     if (checkBust(playerScore, "Player")) {
+//         document.getElementById("hit-button").disabled = true;
+//         document.getElementById("stand-button").disabled = true;
+//         document.getElementById("message-area").textContent = "Player Bust! You lose your bet.";
+//         modifyPlayerBank(-betAmount); // Subtract the bet amount from the bank
+
+//         // Offer the player to play another round or cash out
+//         document.getElementById("play-again").style.display = "block";
+//         document.getElementById("cash-out").style.display = "block";
+//     } else {
+//         // Check if dealer's turn is over
+//         if (dealerScore >= 17) {
+//             determineWinner();
+//         }
+//     }
+// }
+
+
+
 
 function determineWinner() {
     // ... Determine winner logic ...
-    if (dealerScore > 21 || dealerScore < playerScore) {
+    if (dealerScore > 21 || dealerScore < playerScore && playerScore < 21) {
         document.getElementById("message-area").textContent = "Player wins!";
         modifyPlayerBank(betAmount); // Add the bet amount to the bank
-    } else if (dealerScore > playerScore) {
+    } else if (dealerScore > playerScore && dealerScore, playerScore < 21) {
         document.getElementById("message-area").textContent = "Dealer wins! You lose your bet.";
         modifyPlayerBank(-betAmount); // Subtract the bet amount from the bank
-    } else {
+    } else if
+    
+    else {
         document.getElementById("message-area").textContent = "It's a tie! Bet returned.";
         // No change in the bank for a tie
     }
@@ -281,6 +293,11 @@ function determineWinner() {
     document.getElementById("cash-out").style.display = "block";
 }
 
+// Function to set the bet amount and update display
+function setBetAmount(amount) {
+    betAmount = amount;
+    document.getElementById("bet-display").textContent = `Bet: $${betAmount}`;
+}
 
 // Event listeners for bet buttons
 document.getElementById('bet-5').addEventListener('click', function() {
@@ -314,6 +331,7 @@ document.getElementById('hit-button').addEventListener('click', function() {
     dealPlayer();
 });
 
+document.getElementById("stand-button").addEventListener("click", playerStandButton)
 
 document.getElementById("resetGame").addEventListener("click", resetGame)
 
