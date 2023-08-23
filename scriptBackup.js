@@ -1,6 +1,5 @@
-// this is the organized version of the file, NT
+
 const cardDeck = [
-    // ... cardDeck values ...
     'hearts-r02.svg', 'hearts-r03.svg', 'hearts-r04.svg', 'hearts-r05.svg', 'hearts-r06.svg',
     'hearts-r07.svg', 'hearts-r08.svg', 'hearts-r09.svg', 'hearts-r10.svg', 'hearts-J.svg',
     'hearts-Q.svg', 'hearts-K.svg', 'hearts-A.svg',
@@ -13,24 +12,19 @@ const cardDeck = [
     'spades-r02.svg', 'spades-r03.svg', 'spades-r04.svg', 'spades-r05.svg', 'spades-r06.svg',
     'spades-r07.svg', 'spades-r08.svg', 'spades-r09.svg', 'spades-r10.svg', 'spades-J.svg',
     'spades-Q.svg', 'spades-K.svg', 'spades-A.svg'
-];
+]
 
 let playerHand = [];
-let dealerHand = [];
 let playerScore = calculateHandTotal(playerHand);
-let dealerScore = calculateHandTotal(dealerHand);
-let baseCard = "css/card-library/images/backs/blue.svg";
-let betAmount = 0;
+let baseCard = "css/card-library/images/backs/blue.svg"
 
-// Function to get a random card from the deck
+
 function getRandomCard() {
     const randomIndex = Math.floor(Math.random() * cardDeck.length);
     return cardDeck[randomIndex];
 }
 
-// Function to calculate the total value of a hand
 function calculateHandTotal(hand) {
-    // ... calculateHandTotal logic ...
     let total = 0;
     let hasAce = false;
 
@@ -56,9 +50,7 @@ function calculateHandTotal(hand) {
     return total;
 }
 
-// Function to check if a hand has busted
 function checkBust(handTotal, playerType) {
-    // ... checkBust logic ...
     if (handTotal > 21) {
         document.getElementById("message-area").textContent = `${playerType} Bust!`;
         return true;
@@ -66,9 +58,7 @@ function checkBust(handTotal, playerType) {
     return false;
 }
 
-// Function to deal a card to the player
 function dealPlayer() {
-    // ... dealPlayer logic ...
     const randomCard = `images/${getRandomCard()}`;
     playerHand.push(randomCard);
     document.getElementById("playerCard").innerHTML += `<img src="${randomCard}" />`;
@@ -98,13 +88,13 @@ function dealPlayer() {
     }
 }
 
+
 // Initialize player's bank
-let playerBank = 1000;
+let playerBank = 1000; // You can set an initial amount
 document.getElementById("bank").textContent = `Bank: $${playerBank}`;
 
-// Function to modify player's bank
+// Function to modify player's bank (add or subtract)
 function modifyPlayerBank(amount) {
-    // ... modifyPlayerBank logic ...
     if (amount > 0) {
         playerBank += amount;
         document.getElementById("bank").textContent = `Bank: $${playerBank}`;
@@ -117,9 +107,19 @@ function modifyPlayerBank(amount) {
     }
 }
 
+// Example usage when adding or subtracting from player's bank
+const winAmount = 50; // Replace this with the actual win amount
+modifyPlayerBank(winAmount); // Adds the win amount to the bank
+
+const lossAmount = -30; // Replace this with the actual loss amount (negative value)
+modifyPlayerBank(lossAmount); // Subtracts the loss amount from the bank
+
+// Add an event listener to the reset button
+document.getElementById('reset-button').addEventListener('click', resetGame);
+
 // Function to reset the game
 function resetGame() {
-    // ... resetGame logic ...
+    // Reset player's hand and score
     playerHand = [];
     playerScore = 0;
     document.getElementById("playerCard").innerHTML = `<img id="img1" src="${baseCard}" />`
@@ -130,13 +130,15 @@ function resetGame() {
     document.getElementById("stand-button").disabled = false;
 
     // Reset message area
-    document.getElementById("message-area").textContent = ""
+    document.getElementById("message-area").textContent = "";
 
+    // You might want to reset other game states here
 }
+
+// ... Previous code ...
 
 // Function to handle the dealer's turn
 function dealerTurn() {
-    // ... dealerTurn logic ...
     // Dealer's logic to hit until reaching 17 or higher
     while (dealerScore < 17) {
         const randomCard = `images/${getRandomCard()}`;
@@ -162,7 +164,7 @@ function dealerTurn() {
 
 // Function to handle the player's choice to stand
 function playerStand() {
-    // ... playerStand logic ...
+    // Disable the hit and stand buttons
     document.getElementById("hit-button").disabled = true;
     document.getElementById("stand-button").disabled = true;
 
@@ -170,9 +172,21 @@ function playerStand() {
     dealerTurn();
 }
 
-// Function to start the game with a given bet amount
+
 function startGame(betAmount) {
-    // ... Reset game state and enable buttons ...
+    console.log(betAmount)
+    // Reset the game state
+    playerHand = [];
+    dealerHand = [];
+    playerScore = 0;
+    dealerScore = 0;
+    
+    // Enable the hit and stand buttons
+    document.getElementById("hit-button").disabled = false;
+    document.getElementById("stand-button").disabled = false;
+    
+    // Reset message area
+    document.getElementById("message-area").textContent = "";
 
     // Validate the bet amount (ensure it's a number)
     if (!isNaN(betAmount)) {
@@ -181,37 +195,13 @@ function startGame(betAmount) {
         document.getElementById("bet-display").textContent = `Bet: $${betAmount}`;
         
         // Deal initial cards to player and dealer
-        const playerInitialCard1 = `images/${getRandomCard()}`;
-        const playerInitialCard2 = `images/${getRandomCard()}`;
-        const dealerInitialCard1 = `images/${getRandomCard()}`;
-        
-        playerHand.push(playerInitialCard1, playerInitialCard2);
-        dealerHand.push(dealerInitialCard1);
-        
-        document.getElementById("playerCard").innerHTML += `<img src="${playerInitialCard1}" />`;
-        document.getElementById("playerCard").innerHTML += `<img src="${playerInitialCard2}" />`;
-        document.getElementById("dealerCard").innerHTML += `<img src="${dealerInitialCard1}" />`;
-        
-        playerScore = calculateHandTotal(playerHand);
-        dealerScore = calculateHandTotal(dealerHand);
-        
-        document.getElementById("player-score").textContent = `Score: ${playerScore}`;
-        document.getElementById("dealer-score").textContent = `Score: ${dealerScore}`;
-        
-        // Check if player has Blackjack
-        if (playerScore === 21) {
-            document.getElementById("message-area").textContent = "Blackjack! Player wins!";
-            modifyPlayerBank(betAmount * 1.5); // Add winnings to the bank
-            document.getElementById("hit-button").disabled = true;
-            document.getElementById("stand-button").disabled = true;
-        }
+        dealInitialCards();
     } else {
         document.getElementById("message-area").textContent = "Invalid bet amount. Please enter a number.";
     }
 }
 
 
-// Event listeners for bet buttons
 document.getElementById('bet-5').addEventListener('click', function() {
     setBetAmount(5);
 });
@@ -232,24 +222,14 @@ document.getElementById('bet-100').addEventListener('click', function() {
     setBetAmount(100);
 });
 
-// Function to set the bet amount and update display
 function setBetAmount(amount) {
     betAmount = amount;
     document.getElementById("bet-display").textContent = `Bet: $${betAmount}`;
 }
 
-// Event listener for the "Start Game" button
-document.getElementById('start-button').addEventListener('click', function() {
-    startGame(betAmount);
-});
-
-// Event listener for the "Hit" button
-document.getElementById('hit-button').addEventListener('click', function() {
-    dealPlayer();
-});
-
-// Add an event listener to the reset button
-document.getElementById('reset-button').addEventListener('click', resetGame);
 
 
+// Add an event listener to the "Start Game" button
+document.getElementById('start-button').addEventListener('click', startGame);
 
+document.getElementById('hit-button').addEventListener('click', dealPlayer);

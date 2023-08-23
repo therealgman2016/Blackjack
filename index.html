@@ -16,18 +16,29 @@
         <div id="game-container">
             <div class="dealer-section">
                 <h2>Dealer's Hand</h2>
-                <div id="dealer-hand" class="hand">
+                <div id="dealerCard" class="hand">
                     <img id="img1" src="css/card-library/images/backs/blue.svg">
                 </div>
                 <span id="dealer-score">Score: 0</span>
             </div>
 
             <div class="player-section">
+                <div id="bet-display">Bet: $0</div>
+                    <div id="bet-buttons">
+                        <button id="bet-5">Bet $5</button>
+                        <button id="bet-10">Bet $10</button>
+                        <button id="bet-25">Bet $25</button>
+                        <button id="bet-50">Bet $50</button>
+                        <button id="bet-100">Bet $100</button>
+                    </div>
                 <h2>Your Hand</h2>
-                <div id="player-hand" class="hand">
-                    <!-- Player's cards will go here -->
+                <div id="playerCard" class="hand">
+                    <img id="img1" src="css/card-library/images/backs/blue.svg">
                 </div>
                 <span id="player-score">Score: 0</span>
+                <div id="bank">
+                    Bank: $1000 <!-- Initial bank value -->
+                </div>
             </div>
             
             <div class="deck">
@@ -39,6 +50,10 @@
                 <button id="stand-button">Stand</button>
                 <button id="deal-button">Deal</button>
                 <button id="cash-out">Cash Out</button>
+                <!-- Add a button to reset the game -->
+                <button id="reset-button">Reset Game</button>
+                <button id="start-button">Start Game</button>
+
             </div>
             
             
