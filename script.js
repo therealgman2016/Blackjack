@@ -1,8 +1,7 @@
 // this is the organized version of the file, NT
 
-// VERSION 0.33
-//fixed beting system
-//fixed blackjack checker
+// VERSION 0.34
+//fixed restart button/play again button
 
 
 
@@ -122,39 +121,29 @@ function modifyPlayerBank(amount) {
 // Function to play again
 function playAgain() {
     playerHand = [];
+    dealerHand = [];
     playerScore = 0;
-    document.getElementById("playerCard").innerHTML = `<img id="img2" src="${baseCard}" />`
-    document.getElementById("dealerCard").innerHTML = `<img id="img1" src="${baseCard}" />`
+    dealerScore = 0;
+    playerStand = false;
+    dealerStand = false;
+    
+    document.getElementById("playerCard").innerHTML = `<img id="img2" src="${baseCard}" />`;
+    document.getElementById("dealerCard").innerHTML = `<img id="img1" src="${baseCard}" />`;
     document.getElementById("player-score").textContent = "Score: 0";
     document.getElementById("dealer-score").textContent = "Score: 0";
+    document.getElementById("bet-display").textContent = "Bet: $0";
+    betAmount = 0;
 
     // Enable the hit and stand buttons
     document.getElementById("hit-button").disabled = false;
     document.getElementById("stand-button").disabled = false;
 
     // Reset message area
-    document.getElementById("message-area").textContent = ""
+    document.getElementById("message-area").textContent = "";
+
+    // Start the game loop from the beginning
+    startGame();
 }
-
-function resetGame() {
-    playerHand = [];
-    playerScore = 0;
-    document.getElementById("playerCard").innerHTML = `<img id="img2" src="${baseCard}" />`
-    document.getElementById("dealerCard").innerHTML = `<img id="img1" src="${baseCard}" />`
-    document.getElementById("player-score").textContent = "Score: 0"
-    document.getElementById("dealer-score").textContent = "Score: 0"
-    document.getElementById("bank").textContent = "Bank: $1000"
-    document.getElementById("bet-display").textContent = "Bet: $0"
-    betAmount = 0
-
-    // Enable the hit and stand buttons
-    document.getElementById("hit-button").disabled = false;
-    document.getElementById("stand-button").disabled = false;
-
-    // Reset message area
-    document.getElementById("message-area").textContent = ""
-}
-
 
 // Function to handle the dealer's turn
 function dealerTurn() {
@@ -213,7 +202,7 @@ function startGame(betAmount) {
 
         
     } else {
-        document.getElementById("message-area").textContent = "Invalid bet amount. Please enter a number.";
+        document.getElementById("message-area").textContent = "Enter a bet, then click start.";
     }
 }
 
@@ -347,7 +336,6 @@ document.getElementById('hit-button').addEventListener('click', function() {
 
 document.getElementById("stand-button").addEventListener("click", playerStandButton)
 
-document.getElementById("resetGame").addEventListener("click", resetGame)
 
 document.getElementById("play-again").addEventListener("click", playAgain);
 
@@ -364,3 +352,4 @@ document.getElementById("cash-out").addEventListener("click", function() {
 });
 
 
+startGame()
