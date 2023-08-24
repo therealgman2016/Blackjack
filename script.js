@@ -3,7 +3,7 @@
 // VERSION 0.31
 // inital cards now show when startGame begins
 // dealer now plays correctly
-// fixed determineWinner
+// cards display correctly
 
 
 
@@ -171,8 +171,9 @@ function dealerTurn() {
         dealerScore = calculateHandTotal(dealerHand);
         document.getElementById("dealer-score").textContent = `Score: ${dealerScore}`;
     }else {
-        dealerStand = true
+       // dealerStand = true
         determineWinner()
+        playerTurn()
     }
 
     
@@ -208,19 +209,20 @@ function startGame(betAmount) {
             document.getElementById("stand-button").disabled = true;
         } else {
             // Start the loop between player and dealer turns
-            dealPlayer();
+            playerTurn()
         }
     } else {
         document.getElementById("message-area").textContent = "Invalid bet amount. Please enter a number.";
     }
 }
 
-// // Function to handle the player's turn
-// function playerTurn() {
-//     document.getElementById("hit-button").disabled = false;
-//     document.getElementById("stand-button").disabled = false;
-//     document.getElementById("message-area").textContent = "Player's turn. Choose hit or stand.";
-// }
+
+// Function to handle the player's turn
+function playerTurn() {
+    document.getElementById("hit-button").disabled = false;
+    document.getElementById("stand-button").disabled = false;
+    document.getElementById("message-area").textContent = "Player's turn. Choose hit or stand.";
+}
 
 
 // Function to handle the player's choice to stand
@@ -230,7 +232,6 @@ function playerStandButton() {
 
     // Trigger the dealer's turn
     dealerTurn()
-    determineWinner()
 }
 
 // Function to handle the dealer's turn
@@ -281,9 +282,7 @@ function determineWinner() {
     } else if (dealerScore > playerScore && dealerScore, playerScore < 21) {
         document.getElementById("message-area").textContent = "Dealer wins! You lose your bet.";
         modifyPlayerBank(-betAmount); // Subtract the bet amount from the bank
-    } else if
-    
-    else {
+    } else {
         document.getElementById("message-area").textContent = "It's a tie! Bet returned.";
         // No change in the bank for a tie
     }
