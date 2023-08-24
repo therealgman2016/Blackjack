@@ -1,7 +1,6 @@
 // this is the organized version of the file, NT
 
-// VERSION 0.34
-//fixed restart button/play again button
+// VERSION 0.35
 
 
 
@@ -183,6 +182,7 @@ function startGame(betAmount) {
 
     // Validate the bet amount (ensure it's a number)
     if (!isNaN(betAmount)) {
+        document.getElementsByClassName("bet-buttons").disabled = true
         // Update player's bank and bet display
        // modifyPlayerBank(-betAmount) 
         document.getElementById("bet-display").textContent = `Bet: $${betAmount}`;
@@ -265,11 +265,17 @@ function determineWinner() {
     console.log("picking winner")
     // ... Determine winner logic ...
     // Check if player has Blackjack
-    if (playerScore === 21 || dealerScore === 21) {
+    if (playerScore === 21) {
         document.getElementById("message-area").textContent = "Blackjack! Wins!";
         modifyPlayerBank(betAmount * 1.5); // Add winnings to the bank
         document.getElementById("hit-button").disabled = true;
         document.getElementById("stand-button").disabled = true;
+    } else if (dealerScore === 21) {
+        document.getElementById("message-area").textContent = "Blackjack! Wins!";
+        modifyPlayerBank(-betAmount * 1.5); // take from player
+        document.getElementById("hit-button").disabled = true;
+        document.getElementById("stand-button").disabled = true;
+
     } else {
         if (dealerScore > 21 || dealerScore < playerScore && playerScore < 21) {
             document.getElementById("message-area").textContent = "Player wins!";
