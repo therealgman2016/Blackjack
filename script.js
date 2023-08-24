@@ -1,9 +1,8 @@
 // this is the organized version of the file, NT
 
-// VERSION 0.32
-//fixed messages
-//fixed broken winning system
-
+// VERSION 0.33
+//fixed beting system
+//fixed blackjack checker
 
 
 
@@ -177,7 +176,7 @@ function dealerTurn() {
             document.getElementById("hit-button").disabled = true;
             document.getElementById("stand-button").disabled = true;
             document.getElementById("message-area").textContent = "Dealer Bust! You win.";
-            modifyPlayerBank(betAmount); // add the bet amount from the bank
+            modifyPlayerBank(betAmount); // player wins bet
         } else {
             // Compare player's hand with dealer's hand
             determineWinner()
@@ -196,7 +195,7 @@ function startGame(betAmount) {
     // Validate the bet amount (ensure it's a number)
     if (!isNaN(betAmount)) {
         // Update player's bank and bet display
-        modifyPlayerBank(-betAmount); // Subtract the bet amount from the bank
+       // modifyPlayerBank(-betAmount) 
         document.getElementById("bet-display").textContent = `Bet: $${betAmount}`;
 
         // Deal initial cards to player and dealer
@@ -210,17 +209,9 @@ function startGame(betAmount) {
 
         document.getElementById("player-score").textContent = `Score: ${playerScore}`;
         document.getElementById("dealer-score").textContent = `Score: ${dealerScore}`;
+        document.getElementById("message-area").textContent = "Player's turn. Hit or stand"
 
-        // Check if player has Blackjack
-        if (playerScore === 21 || dealerScore === 21) {
-            document.getElementById("message-area").textContent = "Blackjack! Wins!";
-            modifyPlayerBank(betAmount * 1.5); // Add winnings to the bank
-            document.getElementById("hit-button").disabled = true;
-            document.getElementById("stand-button").disabled = true;
-        } else {
-            // Start the loop between player and dealer turns
-            playerTurn()
-        }
+        
     } else {
         document.getElementById("message-area").textContent = "Invalid bet amount. Please enter a number.";
     }
@@ -231,7 +222,7 @@ function startGame(betAmount) {
 function playerTurn() {
     document.getElementById("hit-button").disabled = false;
     document.getElementById("stand-button").disabled = false;
-    document.getElementById("message-area").textContent = "Player's turn. Choose hit or stand.";
+    document.getElementById("message-area").textContent = "Player's turn. Hit or stand.";
 }
 
 
@@ -284,20 +275,27 @@ function playerStandButton() {
 function determineWinner() {
     console.log("picking winner")
     // ... Determine winner logic ...
-    if (dealerScore > 21 || dealerScore < playerScore && playerScore < 21) {
-        document.getElementById("message-area").textContent = "Player wins!";
-        modifyPlayerBank(betAmount); // Add the bet amount to the bank
-    } else if (dealerScore > playerScore && dealerScore < 21) {
-        document.getElementById("message-area").textContent = "Dealer wins! You lose your bet.";
-        modifyPlayerBank(-betAmount); // Subtract the bet amount from the bank
-    } else if (playerScore > dealerScore && playerScore < 21) {
-        document.getElementById("message-area").textContent = "Player wins! You win your bet.";
-        modifyPlayerBank(betAmount); // Subtract the bet amount from the bank
+    // Check if player has Blackjack
+    if (playerScore === 21 || dealerScore === 21) {
+        document.getElementById("message-area").textContent = "Blackjack! Wins!";
+        modifyPlayerBank(betAmount * 1.5); // Add winnings to the bank
+        document.getElementById("hit-button").disabled = true;
+        document.getElementById("stand-button").disabled = true;
     } else {
-        document.getElementById("message-area").textContent = "It's a tie! Bet returned.";
-        // No change in the bank for a tie
+        if (dealerScore > 21 || dealerScore < playerScore && playerScore < 21) {
+            document.getElementById("message-area").textContent = "Player wins!";
+            modifyPlayerBank(betAmount); // Add the bet amount to the bank
+        } else if (dealerScore > playerScore && dealerScore < 21) {
+            document.getElementById("message-area").textContent = "Dealer wins! You lose your bet.";
+            modifyPlayerBank(-betAmount); // Subtract the bet amount from the bank
+        } else if (playerScore > dealerScore && playerScore < 21) {
+            document.getElementById("message-area").textContent = "Player wins! You win your bet.";
+            modifyPlayerBank(betAmount); // Subtract the bet amount from the bank
+        } else {
+            document.getElementById("message-area").textContent = "It's a tie! Bet null.";
+            // No change in the bank for a tie
+        }
     }
-
     // Offer the player to play another round or cash out
     document.getElementById("play-again").style.display = "block";
     document.getElementById("cash-out").style.display = "block";
