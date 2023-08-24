@@ -1,9 +1,9 @@
 // this is the organized version of the file, NT
 
-// VERSION 0.31
-// inital cards now show when startGame begins
-// dealer now plays correctly
-// cards display correctly
+// VERSION 0.32
+//fixed messages
+//fixed broken winning system
+
 
 
 
@@ -160,6 +160,7 @@ function resetGame() {
 // Function to handle the dealer's turn
 function dealerTurn() {
     console.log("dealer turn")
+    document.getElementById("message-area").textContent = "Dealer's turn"
     // ... dealerTurn logic ...
     // Dealer's logic to hit until reaching 17 or higher
     if (dealerScore < 17) {
@@ -167,17 +168,26 @@ function dealerTurn() {
         dealerHand.push(randomCard);
         console.log(randomCard + "this is what the dealer got")
         document.getElementById("dealerCard").innerHTML += `<img id="img1" src="${randomCard}"/>`;
-
         dealerScore = calculateHandTotal(dealerHand);
         document.getElementById("dealer-score").textContent = `Score: ${dealerScore}`;
+        document.getElementById("message-area").textContent = "Player's turn. Hit or Stand"
+        
     }else {
-       // dealerStand = true
-        determineWinner()
-        playerTurn()
+        if (checkBust(dealerScore, "Dealer")) {
+            document.getElementById("hit-button").disabled = true;
+            document.getElementById("stand-button").disabled = true;
+            document.getElementById("message-area").textContent = "Dealer Bust! You win.";
+            modifyPlayerBank(betAmount); // add the bet amount from the bank
+        } else {
+            // Compare player's hand with dealer's hand
+            determineWinner()
+        }
     }
-
     
 }
+
+    
+
 
 
 // Function to start the game with a given bet amount
@@ -227,9 +237,6 @@ function playerTurn() {
 
 // Function to handle the player's choice to stand
 function playerStandButton() {
-    document.getElementById("hit-button").disabled = true;
-    document.getElementById("stand-button").disabled = true;
-
     // Trigger the dealer's turn
     dealerTurn()
 }
@@ -253,7 +260,7 @@ function playerStandButton() {
 // }
 
 
-// function checkScores() {
+// function checkScoresOld() {
 //     if (checkBust(playerScore, "Player")) {
 //         document.getElementById("hit-button").disabled = true;
 //         document.getElementById("stand-button").disabled = true;
@@ -275,13 +282,17 @@ function playerStandButton() {
 
 
 function determineWinner() {
+    console.log("picking winner")
     // ... Determine winner logic ...
     if (dealerScore > 21 || dealerScore < playerScore && playerScore < 21) {
         document.getElementById("message-area").textContent = "Player wins!";
         modifyPlayerBank(betAmount); // Add the bet amount to the bank
-    } else if (dealerScore > playerScore && dealerScore, playerScore < 21) {
+    } else if (dealerScore > playerScore && dealerScore < 21) {
         document.getElementById("message-area").textContent = "Dealer wins! You lose your bet.";
         modifyPlayerBank(-betAmount); // Subtract the bet amount from the bank
+    } else if (playerScore > dealerScore && playerScore < 21) {
+        document.getElementById("message-area").textContent = "Player wins! You win your bet.";
+        modifyPlayerBank(betAmount); // Subtract the bet amount from the bank
     } else {
         document.getElementById("message-area").textContent = "It's a tie! Bet returned.";
         // No change in the bank for a tie
@@ -296,6 +307,12 @@ function determineWinner() {
 function setBetAmount(amount) {
     betAmount = amount;
     document.getElementById("bet-display").textContent = `Bet: $${betAmount}`;
+}
+
+document.getElementById("stand-button").addEventListener("click", playerStandButton);
+
+function playerStandButton() {
+    dealerTurn(); // Trigger the dealer's turn
 }
 
 // Event listeners for bet buttons
@@ -335,6 +352,8 @@ document.getElementById("stand-button").addEventListener("click", playerStandBut
 document.getElementById("resetGame").addEventListener("click", resetGame)
 
 document.getElementById("play-again").addEventListener("click", playAgain);
+
+document.getElementById("stand-button").addEventListener("click", playerStandButton);
 
 document.getElementById("cash-out").addEventListener("click", function() {
     // Display the player's total money and the amount they won/lost
