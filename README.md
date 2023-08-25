@@ -3,6 +3,14 @@
 ## Description
 This project involves creating a simple Blackjack game using HTML, CSS, and JavaScript. The game will allow players to play against the computer (dealer) in a simplified version of the classic casino game Blackjack.
 
+## Deployment:
+https://therealgman2016.github.io/Blackjack/
+
+## Technology used:
+- HTMl
+- CSS
+- JS
+  
 ## Features
 - Player vs. Dealer gameplay
 - Player can hit or stand
