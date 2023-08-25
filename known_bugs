@@ -1,0 +1,37 @@
+Version 0.3 bugs:
+Js-
+- stand button doesn’t work after first bet/start game (or at all)
+- dealer doesn’t go second time, causing player to win
+- deal button non-functional
+- cash-out button non-functional
+- bet shouldn’t be able to be changed after first submission 
+- reset game doesn’t effect dealer
+- can still play after win/lose (thats not good)
+-if tie, bet is not returned
+- Dealers second card doesn’t show
+- Bets need to be replaced (2x) when win
+- Play again and restart dont work as intended. (Need to start-game)
+- When lose bet, dont subtract from bank, put bet in own var
+- “Hit” “stand” buttons blocked when “stand” pushed first round
+- Doesn’t tell cost
+- Card dealing got messed up again, as with winning methods
+- Messages dont correspond with turns
+- Check for blackjacks when checking scores
+- Apparently 21 and 18 are a tie?
+
+Css -
+- cards arnt aligned
+- cards are transparent
+- back of card still shows
+- no visible deck
+- message box too small
+- lots of whitespace on bottom
+- dealer score too small
+- player score too small
+- bet buttons too small
+
+General - 
+- bet buttons should hide after first bet, til next round
+- bet screen should pop up first
+	- other buttons disabled until then
+-images are gone again

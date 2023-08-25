@@ -1,8 +1,4 @@
-// this is the organized version of the file, NT
-
 // VERSION 0.35
-
-
 
 const cardDeck = [
     // ... cardDeck values ...
@@ -20,6 +16,7 @@ const cardDeck = [
     'spades-Q.svg', 'spades-K.svg', 'spades-A.svg'
 ];
 
+// Initialize stuff
 let playerHand = [];
 let dealerHand = [];
 let playerScore = calculateHandTotal(playerHand);
@@ -28,6 +25,7 @@ let baseCard = "css/card-library/images/backs/blue.svg";
 let betAmount = 0;
 let playerStand = false;
 let dealerStand = false;
+
 // Initialize player's bank
 let playerBank = 1000;
 document.getElementById("bank").textContent = `Bank: $${playerBank}`;
@@ -35,7 +33,6 @@ document.getElementById("bank").textContent = `Bank: $${playerBank}`;
 // Function to get a random card from the deck
 function getRandomCard() {
     const randomIndex = Math.floor(Math.random() * cardDeck.length);
-    //console.log(`random card - ${cardDeck[randomIndex]}`) // dev testing
     return cardDeck[randomIndex]
 }
 
@@ -47,7 +44,6 @@ function calculateHandTotal(hand) {
 
     for (const card of hand) {
         const cardValue = card.substring(card.lastIndexOf('-') + 1, card.lastIndexOf('.')).replace("r", "");
-       // console.log('Card:', card, 'Value:', cardValue); // Debugging log
         
         if (cardValue === 'A') {
             hasAce = true;
@@ -58,12 +54,10 @@ function calculateHandTotal(hand) {
             total += parseInt(cardValue);
         }
     }
-   // console.log('Total before adjustments:', total); // Debugging log
 
     if (hasAce && total > 21) {
         total -= 10;
     }
-   // console.log('Total after adjustments:', total); // Debugging log
     return total;
 }
 
@@ -95,7 +89,7 @@ function dealPlayer() {
         document.getElementById("message-area").textContent = "Player Bust! You lose your bet.";
         modifyPlayerBank(-betAmount); // Subtract the bet amount from the bank
     } else {
-        // Compare player's hand with dealer's hand\
+        // Compare player's hand with dealer's hand
         dealerTurn()
     }
 }
@@ -184,7 +178,6 @@ function startGame(betAmount) {
     if (!isNaN(betAmount)) {
         document.getElementsByClassName("bet-buttons").disabled = true
         // Update player's bank and bet display
-       // modifyPlayerBank(-betAmount) 
         document.getElementById("bet-display").textContent = `Bet: $${betAmount}`;
 
         // Deal initial cards to player and dealer
@@ -220,43 +213,6 @@ function playerStandButton() {
     // Trigger the dealer's turn
     dealerTurn()
 }
-
-// Function to handle the dealer's turn
-// function dealerTurn() {
-//     console.log(" 2nddealerTurn")
-//     // Dealer's logic to hit until reaching 17 or higher
-//     while (dealerScore < 17) {
-//         dealerHand.push(`images/${getRandomCard()}`);
-//         dealerScore = calculateHandTotal(dealerHand);
-//         document.getElementById("dealer-score").textContent = `Score: ${dealerScore}`;
-//     }
-
-//     // Determine the winner and handle money accordingly
-//     determineWinner();
-
-//     // Offer the player to play another round or cash out
-//     document.getElementById("play-again").style.display = "block";
-//     document.getElementById("cash-out").style.display = "block";
-// }
-
-
-// function checkScoresOld() {
-//     if (checkBust(playerScore, "Player")) {
-//         document.getElementById("hit-button").disabled = true;
-//         document.getElementById("stand-button").disabled = true;
-//         document.getElementById("message-area").textContent = "Player Bust! You lose your bet.";
-//         modifyPlayerBank(-betAmount); // Subtract the bet amount from the bank
-
-//         // Offer the player to play another round or cash out
-//         document.getElementById("play-again").style.display = "block";
-//         document.getElementById("cash-out").style.display = "block";
-//     } else {
-//         // Check if dealer's turn is over
-//         if (dealerScore >= 17) {
-//             determineWinner();
-//         }
-//     }
-// }
 
 
 
