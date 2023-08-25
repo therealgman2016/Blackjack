@@ -37,9 +37,9 @@ The objective of Blackjack is to get a hand value as close to 21 as possible wit
 
 ## UI wireframe
 ingame text:
-![Alt text](images/blackjack_ingame.png)
+![Alt text](images/blackjack_i.png)
 winner screen:
-![Alt text](images/blackjack_winner.png)
+![Alt text](images/blackjack_winner_screen.png)
 
 ## Pseudocode
 
