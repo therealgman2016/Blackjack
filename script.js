@@ -14,25 +14,25 @@ const cardDeck = [
     'spades-r02.svg', 'spades-r03.svg', 'spades-r04.svg', 'spades-r05.svg', 'spades-r06.svg',
     'spades-r07.svg', 'spades-r08.svg', 'spades-r09.svg', 'spades-r10.svg', 'spades-J.svg',
     'spades-Q.svg', 'spades-K.svg', 'spades-A.svg'
-];
+]
 
 // Initialize stuff
-let playerHand = [];
-let dealerHand = [];
-let playerScore = calculateHandTotal(playerHand);
-let dealerScore = calculateHandTotal(dealerHand);
-let baseCard = "css/card-library/images/backs/blue.svg";
-let betAmount = 0;
-let playerStand = false;
-let dealerStand = false;
+let playerHand = []
+let dealerHand = []
+let playerScore = calculateHandTotal(playerHand)
+let dealerScore = calculateHandTotal(dealerHand)
+let baseCard = "images/blue.svg"
+let betAmount = 0
+let playerStand = false
+let dealerStand = false
 
 // Initialize player's bank
 let playerBank = 1000;
-document.getElementById("bank").textContent = `Bank: $${playerBank}`;
+document.getElementById("bank").textContent = `Bank: $${playerBank}`
 
 // Function to get a random card from the deck
 function getRandomCard() {
-    const randomIndex = Math.floor(Math.random() * cardDeck.length);
+    const randomIndex = Math.floor(Math.random() * cardDeck.length)
     return cardDeck[randomIndex]
 }
 
